@@ -1,0 +1,154 @@
+Полиморфим (Shape, Rectangle, Circle)
+#include <iostream>
+using namespace std;
+
+class Shape {
+protected:
+    int x, y;
+
+public:
+    Shape(int x = 0, int y = 0) : x(x), y(y) {}
+    virtual void draw() = 0;
+
+    void move(int newX, int newY) {
+        x = newX;
+        y = newY;
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    Rectangle(int x, int y) : Shape(x, y) {}
+
+    void draw() override {
+        cout << "Drawing Rectangle at (" << x << ", " << y << ")" << endl;
+    }
+};
+
+class Circle : public Shape {
+public:
+    Circle(int x, int y) : Shape(x, y) {}
+
+    void draw() override {
+        cout << "Drawing Circle at (" << x << ", " << y << ")" << endl;
+    }
+};
+
+int main() {
+    Shape* shapes[2];
+    shapes[0] = new Rectangle(1, 2);
+    shapes[1] = new Circle(5, 6);
+
+    for (int i = 0; i < 2; i++) {
+        shapes[i]->draw();
+        shapes[i]->move(10, 10);
+        shapes[i]->draw();
+    }
+
+    for (int i = 0; i < 2; i++) {
+        delete shapes[i];
+    }
+
+    return 0;
+}
+
+Виртуальный деструктор
+
+#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    Shape() {
+        cout << "Shape Constructor" << endl;
+    }
+
+    virtual ~Shape() {
+        cout << "Shape Destructor" << endl;
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    Rectangle() {
+        cout << "Rectangle Constructor" << endl;
+    }
+
+    ~Rectangle() {
+        cout << "Rectangle Destructor" << endl;
+    }
+};
+
+int main() {
+    Shape* s = new Rectangle();
+    delete s;
+    return 0;
+}
+
+Абстрактная фабрика
+#include <iostream>
+using namespace std;
+
+class Document {
+public:
+    virtual void open() = 0;
+    virtual void close() = 0;
+    virtual ~Document() {}
+};
+
+class TextDocument : public Document {
+public:
+    void open() override {
+        cout << "Opening Text Document" << endl;
+    }
+
+    void close() override {
+        cout << "Closing Text Document" << endl;
+    }
+};
+
+class SpreadsheetDocument : public Document {
+public:
+    void open() override {
+        cout << "Opening Spreadsheet Document" << endl;
+    }
+
+    void close() override {
+        cout << "Closing Spreadsheet Document" << endl;
+    }
+};
+
+class Application {
+public:
+    virtual Document* createDocument() = 0;
+    virtual ~Application() {}
+};
+
+class TextApplication : public Application {
+public:
+    Document* createDocument() override {
+        return new TextDocument();
+    }
+};
+
+class SheetApplication : public Application {
+public:
+    Document* createDocument() override {
+        return new SpreadsheetDocument();
+    }
+};
+
+int main() {
+    Application* app = new TextApplication();
+
+    Document* doc = app->createDocument();
+    doc->open();
+    doc->close();
+
+    delete doc;
+    delete app;
+
+    return 0;
+}
+
+
