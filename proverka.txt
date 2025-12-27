@@ -1,4 +1,4 @@
-Полиморфим (Shape, Rectangle, Circle)
+Polimorfizm (Shape, Rectangle, Circle)
 #include <iostream>
 using namespace std;
 
@@ -52,7 +52,8 @@ int main() {
     return 0;
 }
 
-Виртуальный деструктор
+
+Virtual destructor
 
 #include <iostream>
 using namespace std;
@@ -85,7 +86,8 @@ int main() {
     return 0;
 }
 
-Абстрактная фабрика
+Abstract fabrica
+
 #include <iostream>
 using namespace std;
 
